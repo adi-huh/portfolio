@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aditya Rai | AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a; --bg2: #111111; --bg3: #161616;
+    --text: #e8e4dc; --muted: #888580;
+    --accent: #c8a96e; --accent2: #e8c88a;
+    --border: rgba(255,255,255,0.07); --border2: rgba(200,169,110,0.25);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.6; cursor: none; }
+  .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+  .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: all 0.25s ease; opacity: 0.6; }
+  ::-webkit-scrollbar { width: 2px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 4rem; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s ease; }
+  nav.scrolled { background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--accent); letter-spacing: 0.05em; text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-resume { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--border2); padding: 0.5rem 1.2rem; transition: all 0.2s; }
+  .nav-resume:hover { background: var(--accent); color: var(--bg); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 4rem 6rem; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; top: 50%; left: -2%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: clamp(8rem, 18vw, 22rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(200,169,110,0.05); white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -0.03em; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 400; line-height: 1; letter-spacing: -0.02em; opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards; }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub { margin-top: 2rem; font-size: clamp(0.95rem, 1.4vw, 1.1rem); color: var(--muted); max-width: 520px; font-weight: 300; line-height: 1.85; opacity: 0; animation: fadeUp 0.9s ease 0.6s forwards; }
+  .hero-actions { margin-top: 3rem; display: flex; align-items: center; gap: 2rem; opacity: 0; animation: fadeUp 0.9s ease 0.8s forwards; }
+  .btn-primary { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); text-decoration: none; padding: 0.9rem 2rem; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-ghost { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-ghost .arr { font-size: 1.2rem; transition: transform 0.2s; display: inline-block; }
+  .btn-ghost:hover .arr { transform: translateX(4px); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; right: 4rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-rl; display: flex; align-items: center; gap: 1rem; }
+  .hero-scroll::before { content: ''; width: 1px; height: 50px; background: var(--muted); opacity: 0.4; }
+  .hero-stats { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 2.5rem; opacity: 0; animation: fadeIn 1s ease 1.2s forwards; }
+  .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .hero-stat-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
+
+  /* SECTIONS */
+  section { padding: 7rem 4rem; }
+  .section-marker { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .section-marker::after { content: ''; height: 1px; width: 3rem; background: var(--accent); opacity: 0.5; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 4rem; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1.02rem; line-height: 1.9; }
+  .about-text p strong { color: var(--text); font-weight: 400; }
+  .about-details { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+  .about-detail { display: flex; align-items: flex-start; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--border); padding: 0.85rem 0; }
+  .about-detail span:first-child { color: var(--accent); min-width: 90px; flex-shrink: 0; }
+  .skills-category { margin-bottom: 2.5rem; }
+  .skills-cat-title { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; opacity: 0.7; }
+  .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag { font-size: 0.78rem; padding: 0.3rem 0.85rem; border: 1px solid var(--border); color: var(--muted); transition: all 0.2s; letter-spacing: 0.03em; }
+  .skill-tag:hover { border-color: var(--border2); color: var(--accent); }
+
+  /* EXPERIENCE */
+  .exp-list { margin-top: 4rem; }
+  .exp-item { display: grid; grid-template-columns: 210px 1fr; gap: 3rem; padding: 3rem 0; border-top: 1px solid var(--border); }
+  .exp-item:last-child { border-bottom: 1px solid var(--border); }
+  .exp-period { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+  .exp-org { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.5; }
+  .exp-role { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 0.75rem; line-height: 1.25; }
+  .exp-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.9; margin-bottom: 1.2rem; }
+  .exp-desc ul { padding-left: 1.2rem; }
+  .exp-desc li { margin-bottom: 0.5rem; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .exp-tag { font-family: 'DM Mono', monospace; font-size: 0.66rem; padding: 0.2rem 0.65rem; background: var(--bg3); color: var(--muted); letter-spacing: 0.05em; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; margin-top: 4rem; background: var(--border); }
+  .project-card { background: var(--bg); padding: 2.5rem; transition: background 0.3s; position: relative; overflow: hidden; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s ease; }
+  .project-card:hover { background: var(--bg3); }
+  .project-card:hover::before { width: 100%; }
+  .project-num { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--accent); opacity: 0.5; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+  .project-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 400; margin-bottom: 0.75rem; line-height: 1.3; }
+  .project-desc { color: var(--muted); font-size: 0.87rem; line-height: 1.85; margin-bottom: 1.25rem; }
+  .project-highlight { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); opacity: 0.85; margin-bottom: 1.25rem; padding: 0.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-tech { font-family: 'DM Mono', monospace; font-size: 0.64rem; color: var(--muted); opacity: 0.6; letter-spacing: 0.05em; }
+  .project-tech::after { content: ' ·'; }
+  .project-tech:last-child::after { content: ''; }
+
+  /* ACHIEVEMENTS */
+  .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; margin-top: 4rem; background: var(--border); }
+  .ach-card { background: var(--bg); padding: 2.5rem; transition: background 0.3s; position: relative; }
+  .ach-card::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s ease; }
+  .ach-card:hover { background: var(--bg3); }
+  .ach-card:hover::before { width: 100%; }
+  .ach-year { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1rem; opacity: 0.7; }
+  .ach-org { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+  .ach-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; line-height: 1.3; }
+  .ach-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.85; }
+
+  /* RESUME SECTION */
+  .resume-inner { margin-top: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .resume-left {}
+  .resume-left p { color: var(--muted); font-size: 1rem; line-height: 1.9; margin-bottom: 2rem; }
+  .resume-download { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); text-decoration: none; padding: 0.9rem 2rem; transition: background 0.2s; margin-bottom: 1rem; }
+  .resume-download:hover { background: var(--accent2); }
+  .resume-meta { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); opacity: 0.5; letter-spacing: 0.05em; }
+  .resume-preview { border: 1px solid var(--border); background: var(--bg3); overflow: hidden; }
+  .resume-preview iframe { display: block; width: 100%; height: 620px; border: none; filter: invert(0.9) hue-rotate(180deg); }
+  .resume-preview-label { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); opacity: 0.5; }
+
+  /* CONTACT */
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 4rem; align-items: start; }
+  .contact-left p { color: var(--muted); font-size: 1rem; line-height: 1.9; margin-bottom: 2rem; }
+  .contact-link { display: block; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--accent); text-decoration: none; margin-bottom: 0.5rem; transition: opacity 0.2s; }
+  .contact-link:hover { opacity: 0.7; }
+  .contact-phone { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--muted); letter-spacing: 0.05em; }
+  .contact-right { display: flex; flex-direction: column; gap: 1.5px; background: var(--border); }
+  .contact-social { background: var(--bg); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; text-decoration: none; transition: background 0.2s; }
+  .contact-social:hover { background: var(--bg3); }
+  .contact-social-name { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+  .contact-social:hover .contact-social-name { color: var(--text); }
+  .contact-social-arrow { color: var(--accent); font-size: 1.1rem; transition: transform 0.2s; }
+  .contact-social:hover .contact-social-arrow { transform: translate(4px, -4px); }
+
+  /* MARQUEE */
+  .marquee-track { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.2rem 0; background: var(--bg2); }
+  .marquee-inner { display: flex; gap: 3rem; white-space: nowrap; animation: marquee 30s linear infinite; }
+  .marquee-item { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); opacity: 0.4; display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+  .marquee-item::after { content: '✦'; color: var(--accent); opacity: 1; font-size: 0.5rem; }
+
+  /* FOOTER */
+  footer { padding: 2.5rem 4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  footer p { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.45; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    .hero { padding: 0 2rem 5rem; }
+    .hero-stats { display: none; }
+    .hero-scroll { display: none; }
+    .about-grid, .exp-item, .contact-inner, .resume-inner, .ach-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">A ✦ R</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-resume" href="#contact">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-text">ADITYA</div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">98%</div>
+      <div class="hero-stat-label">Test Accuracy</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">IISc</div>
+      <div class="hero-stat-label">Research Intern</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">Top 30</div>
+      <div class="hero-stat-label">IIT Mandi · 1000+ Teams</div>
+    </div>
+  </div>
+  <div class="hero-eyebrow">AI/ML Engineer · Computer Vision · MITS Gwalior '27</div>
+  <h1 class="hero-title">
+    Aditya<br>
+    <em>Builds</em> &amp;<br>
+    Researches
+  </h1>
+  <p class="hero-sub">
+    Mathematics &amp; Computing undergrad with hands-on industry experience in deep learning, computer vision, and anomaly detection. Research intern at IISc Bangalore.
+  </p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#projects">View Work</a>
+    <a class="btn-ghost" href="#contact">Let's Talk <span class="arr">→</span></a>
+  </div>
+  <div class="hero-scroll">Scroll Down</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-track">
+  <div class="marquee-inner">
+    <span class="marquee-item">Deep Learning</span>
+    <span class="marquee-item">Computer Vision</span>
+    <span class="marquee-item">PyTorch</span>
+    <span class="marquee-item">PaDiM Anomaly Detection</span>
+    <span class="marquee-item">YOLOv8</span>
+    <span class="marquee-item">Railway Safety AI</span>
+    <span class="marquee-item">LLM Evaluation</span>
+    <span class="marquee-item">CNNs &amp; ViTs</span>
+    <span class="marquee-item">IISc Bangalore</span>
+    <span class="marquee-item">Smart India Hackathon</span>
+    <span class="marquee-item">Deep Learning</span>
+    <span class="marquee-item">Computer Vision</span>
+    <span class="marquee-item">PyTorch</span>
+    <span class="marquee-item">PaDiM Anomaly Detection</span>
+    <span class="marquee-item">YOLOv8</span>
+    <span class="marquee-item">Railway Safety AI</span>
+    <span class="marquee-item">LLM Evaluation</span>
+    <span class="marquee-item">CNNs &amp; ViTs</span>
+    <span class="marquee-item">IISc Bangalore</span>
+    <span class="marquee-item">Smart India Hackathon</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-marker">01 — About</div>
+  <h2 class="section-title reveal">The person<br>behind the <em>code</em></h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm <strong>Aditya Rai</strong>, a 3rd-year B.Tech student in <strong>Mathematics and Computing</strong> at MITS Gwalior (Batch 2023–27), building AI/ML systems that work in the real world.
+      </p>
+      <p>
+        My recent work at <strong>IISc Bangalore's Lab to Market Program</strong> focused on ML-based anomaly detection for railway inspection — identifying defects automatically where manual error rates are high. I've worked with PaDiM, deep learning pipelines, and rigorous benchmarking (precision, recall, F1, AUC-ROC) to deliver deployment-ready insights.
+      </p>
+      <p>
+        I build end-to-end: from dataset preprocessing and model training through to interactive Gradio deployments. I care about the quality of what I ship.
+      </p>
+      <div class="about-details">
+        <div class="about-detail"><span>Location</span>Gwalior, India</div>
+        <div class="about-detail"><span>Degree</span>B.Tech Mathematics &amp; Computing, MITS — 2027</div>
+        <div class="about-detail"><span>Focus</span>AI/ML · Computer Vision · Anomaly Detection</div>
+        <div class="about-detail"><span>Phone</span>+91-8871660726</div>
+        <div class="about-detail"><span>GitHub</span>github.com/adi-huh</div>
+        <div class="about-detail"><span>Email</span>raiaditya126@gmail.com</div>
+      </div>
+    </div>
+    <div class="about-skills reveal">
+      <div class="skills-category">
+        <div class="skills-cat-title">Programming Languages</div>
+        <div class="skills-list">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">SQL</span>
+        </div>
+      </div>
+      <div class="skills-category">
+        <div class="skills-cat-title">ML Frameworks &amp; Models</div>
+        <div class="skills-list">
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">YOLOv8</span>
+          <span class="skill-tag">PaDiM</span>
+          <span class="skill-tag">DenseNet121</span>
+          <span class="skill-tag">EfficientNet-B3</span>
+          <span class="skill-tag">ResNet</span>
+          <span class="skill-tag">ViT</span>
+          <span class="skill-tag">CNNs</span>
+        </div>
+      </div>
+      <div class="skills-category">
+        <div class="skills-cat-title">Computer Vision</div>
+        <div class="skills-list">
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">Image Classification</span>
+          <span class="skill-tag">Object Detection</span>
+          <span class="skill-tag">Anomaly Detection</span>
+          <span class="skill-tag">Grad-CAM</span>
+        </div>
+      </div>
+      <div class="skills-category">
+        <div class="skills-cat-title">Data Science &amp; Tools</div>
+        <div class="skills-list">
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Gradio</span>
+          <span class="skill-tag">Transfer Learning</span>
+          <span class="skill-tag">Data Augmentation</span>
+          <span class="skill-tag">Statistical Analysis</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="skills-category">
+        <div class="skills-cat-title">Concepts</div>
+        <div class="skills-list">
+          <span class="skill-tag">Deep Learning</span>
+          <span class="skill-tag">Model Training &amp; Eval</span>
+          <span class="skill-tag">LLM Evaluation</span>
+          <span class="skill-tag">Data Annotation</span>
+          <span class="skill-tag">End-to-End ML Pipelines</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--bg2);">
+  <div class="section-marker">02 — Experience</div>
+  <h2 class="section-title reveal">Where I've<br><em>worked</em></h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Jun 2025 — Aug 2025</div>
+        <div class="exp-org">Indian Institute of Science<br>Bangalore</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">AI Intern — Railway Safety</div>
+        <div class="exp-desc">
+          <ul>
+            <li>Diagnosed operational gaps in railway inspection processes and designed data-driven solutions using ML-based anomaly detection to automate defect identification.</li>
+            <li>Developed and evaluated anomaly detection models using PaDiM and deep learning techniques, improving inspection reliability and reducing manual error rates.</li>
+            <li>Conducted structured performance benchmarking (precision, recall, F1-score, AUC-ROC) to compare model outputs and inform engineering improvements.</li>
+            <li>Collaborated with IISc researchers and cross-functional teams to translate ML workflows into technical documentation and deployment-ready insights.</li>
+          </ul>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">PaDiM</span>
+          <span class="exp-tag">Anomaly Detection</span>
+          <span class="exp-tag">PyTorch</span>
+          <span class="exp-tag">Computer Vision</span>
+          <span class="exp-tag">Railway Safety</span>
+          <span class="exp-tag">AUC-ROC Benchmarking</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2024</div>
+        <div class="exp-org">Ethara AI</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">LLM Data Annotation Intern</div>
+        <div class="exp-desc">
+          <ul>
+            <li>Evaluated LLM outputs across the EVALS/Generalist framework, building quality standards for model training data.</li>
+            <li>Developed precise judgment for accuracy, helpfulness, and safety at scale — directly contributing to model improvement pipelines.</li>
+          </ul>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">LLM Evaluation</span>
+          <span class="exp-tag">Data Annotation</span>
+          <span class="exp-tag">RLHF</span>
+          <span class="exp-tag">Quality Assurance</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-marker">03 — Projects</div>
+  <h2 class="section-title reveal">Featured<br><em>work</em></h2>
+  <div class="projects-grid reveal">
+
+    <div class="project-card">
+      <div class="project-num">001</div>
+      <div class="project-title">Chest X-Ray Analysis — Disease Detection</div>
+      <p class="project-desc">
+        End-to-end deep learning pipeline for multi-label chest X-ray abnormality detection. Built automated quality checks to filter mislabeled or corrupted images from training data, improving dataset reliability.
+      </p>
+      <div class="project-highlight">87.8% Classification Accuracy · DenseNet121 · Real-time Gradio Interface</div>
+      <div class="project-stack">
+        <span class="project-tech">PyTorch</span>
+        <span class="project-tech">DenseNet121</span>
+        <span class="project-tech">Transfer Learning</span>
+        <span class="project-tech">OpenCV</span>
+        <span class="project-tech">Gradio</span>
+        <span class="project-tech">Class-Weighted Loss</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">002</div>
+      <div class="project-title">Bone Fracture Classifier — Hybrid CNN + ViT</div>
+      <p class="project-desc">
+        Hybrid architecture for X-ray fracture detection: EfficientNet-B3 extracts local features, ViT-Small captures global context, cross-attention fusion combines both. Built for KBG Hackathon 2026 at IIT Mandi.
+      </p>
+      <div class="project-highlight">98.22% Test Accuracy · 0.997 AUC-ROC · Top 30 / 1000+ Teams</div>
+      <div class="project-stack">
+        <span class="project-tech">PyTorch</span>
+        <span class="project-tech">EfficientNet-B3</span>
+        <span class="project-tech">ViT-Small</span>
+        <span class="project-tech">Cross-Attention Fusion</span>
+        <span class="project-tech">Medical Imaging</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">003</div>
+      <div class="project-title">Railway Anomaly Detection System</div>
+      <p class="project-desc">
+        ML pipeline for detecting defects in railway infrastructure imagery. Research-grade system built at IISc Bangalore — designed for real-world deployment where false negatives have safety consequences.
+      </p>
+      <div class="project-highlight">IISc Lab to Market · PaDiM + Deep Learning · Safety-Critical</div>
+      <div class="project-stack">
+        <span class="project-tech">PaDiM</span>
+        <span class="project-tech">PyTorch</span>
+        <span class="project-tech">YOLOv8</span>
+        <span class="project-tech">OpenCV</span>
+        <span class="project-tech">F1 / AUC-ROC</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">004</div>
+      <div class="project-title">Financial Distress Early Warning System</div>
+      <p class="project-desc">
+        ML-powered system for detecting corporate financial distress signals. Combines quantitative financial fundamentals with modern ensemble methods for predictive risk classification.
+      </p>
+      <div class="project-highlight">Scikit-learn · Flask API · Quantitative Risk Modeling</div>
+      <div class="project-stack">
+        <span class="project-tech">Python</span>
+        <span class="project-tech">Scikit-learn</span>
+        <span class="project-tech">Flask</span>
+        <span class="project-tech">Pandas</span>
+        <span class="project-tech">Statistical Analysis</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements" style="background: var(--bg2);">
+  <div class="section-marker">04 — Achievements</div>
+  <h2 class="section-title reveal">Recognition &amp;<br><em>milestones</em></h2>
+  <div class="ach-grid reveal">
+
+    <div class="ach-card">
+      <div class="ach-year">2025</div>
+      <div class="ach-org">Kamand Bioengineering Group · IIT Mandi</div>
+      <div class="ach-title">KBG Hackathon 2026 — Top 30 Finalist</div>
+      <p class="ach-desc">
+        Selected among top 30 teams out of 1000+ registrations based on mid-submission evaluation. Presented on-site at IIT Mandi, competing against shortlisted teams nationwide. Built a Hybrid CNN + ViT bone fracture classifier achieving 98.22% test accuracy and 0.997 AUC-ROC.
+      </p>
+    </div>
+
+    <div class="ach-card">
+      <div class="ach-year">2024</div>
+      <div class="ach-org">Government of India</div>
+      <div class="ach-title">Smart India Hackathon — National Finalist</div>
+      <p class="ach-desc">
+        Selected among top teams nationally in India's largest student hackathon. Recognized for structured AI-driven problem solving, rapid prototyping, and technical solution design under competitive time constraints.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESUME -->
+<section id="resume">
+  <div class="section-marker">05 — Resume</div>
+  <h2 class="section-title reveal">My <em>résumé</em></h2>
+  <div class="resume-inner">
+    <div class="resume-left reveal">
+      <p>
+        A concise record of my experience, projects, and technical skills. Download the PDF or view it inline — it's updated as of mid-2025.
+      </p>
+      <a class="resume-download" href="AdityaResume.pdf" download="Aditya_Rai_Resume.pdf">
+        ↓ &nbsp; Download PDF
+      </a>
+      <br/>
+      <p class="resume-meta">Last updated · June 2025 · PDF · 1 page</p>
+      <div style="margin-top: 3rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div class="about-detail" style="border-top: 1px solid var(--border); padding-top: 1rem;">
+          <span style="color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.76rem; min-width: 90px;">Degree</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted);">B.Tech Mathematics &amp; Computing</span>
+        </div>
+        <div class="about-detail">
+          <span style="color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.76rem; min-width: 90px;">Institute</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted);">MITS Gwalior · Roll 0901MC231002</span>
+        </div>
+        <div class="about-detail">
+          <span style="color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.76rem; min-width: 90px;">Batch</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted);">2023 — 2027</span>
+        </div>
+        <div class="about-detail">
+          <span style="color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.76rem; min-width: 90px;">Seeking</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted);">AI/ML · Computer Vision Internships</span>
+        </div>
+      </div>
+    </div>
+    <div class="resume-preview reveal">
+      <div class="resume-preview-label">AdityaResume.pdf — Live Preview</div>
+      <iframe src="AdityaResume.pdf" title="Aditya Rai Resume"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--bg2);">
+  <div class="section-marker">06 — Contact</div>
+  <h2 class="section-title reveal">Let's build<br>something <em>great</em></h2>
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <p>
+        Whether it's a research collaboration, internship opportunity, or a conversation about AI and deep learning — I'm always open to meaningful connections.
+      </p>
+      <a class="contact-link" href="mailto:raiaditya126@gmail.com">raiaditya126@gmail.com</a>
+      <p class="contact-phone">+91-8871660726</p>
+    </div>
+    <div class="contact-right reveal">
+      <a class="contact-social" href="https://github.com/adi-huh" target="_blank">
+        <span class="contact-social-name">GitHub — adi-huh</span>
+        <span class="contact-social-arrow">↗</span>
+      </a>
+      <a class="contact-social" href="https://linkedin.com/in/" target="_blank">
+        <span class="contact-social-name">LinkedIn</span>
+        <span class="contact-social-arrow">↗</span>
+      </a>
+      <a class="contact-social" href="mailto:raiaditya126@gmail.com">
+        <span class="contact-social-name">Email</span>
+        <span class="contact-social-arrow">↗</span>
+      </a>
+      <a class="contact-social" href="AdityaResume.pdf" download="Aditya_Rai_Resume.pdf">
+        <span class="contact-social-name">Download Resume</span>
+        <span class="contact-social-arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© Aditya Rai // 2026</p>
+  <p>MITS Gwalior · Mathematics &amp; Computing</p>
+  <p>Designed &amp; Built by Adi</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = (mx - 4) + 'px';
+    cursor.style.top = (my - 4) + 'px';
+  });
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = (rx - 16) + 'px';
+    ring.style.top = (ry - 16) + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
